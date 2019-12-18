@@ -1,0 +1,136 @@
+﻿@model Ecommerce.Library.Models.PurchesOrder
+@{
+
+    Layout = "~/Views/Shared/_MyLayout.cshtml";
+}
+
+<form method="post" asp-action="Create">
+
+    <div class="row container align-content-center">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Date">Date</label>
+                <input type="date" asp-for="Date" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Description">Description</label>
+                <input type="text" multiple="4" asp-for="Description" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="RefNo">Ref No.</label>
+                <input type="text" asp-for="RefNo" class="form-control" />
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="row container align-content-center">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group row">
+                    <label for="productId">Products</label>
+                    <select id="productId" class="form-control" asp-items="ViewBag.products">
+                        <option>---Select---</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group row">
+                    <label for="remarks">Remarks</label>
+                    <input type="text"  id="remarks" class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group row">
+                    <label for="qty">Quantity</label>
+                    <input type="text" id="qty" class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group row">
+                    <input type="button" id="btn_addItem"  value="Add Item" class="btn btn-success"/>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-10">
+            <table class="table table-hover table-borderless table-responsive-md table-striped">
+                <thead>
+                    <tr>
+                        <th>Products</th>
+                        <th>Qty</th>
+                        <th>Remarks</th>
+                    </tr>
+                </thead>
+                <tbody id="tb_items">
+                    @*<tr>
+                        <td>
+                            <input type="hidden" name="orderItem[0].productId" value="1" />a
+                        </td>
+                        <td>
+                            <input type="hidden" name="orderItem[0].qty" value="2" />a
+                        </td>
+                        <td>
+                            <input type="hidden" name="orderItem[0].remarks" value="2" /> a
+                        </td>
+                    </tr>*@
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group">
+            <input class="btn btn-success" type="submit" value="Save" />
+        </div>
+    </div>
+</form>
+@section scripts
+{
+    <script>
+        var index = 0;
+        $("#btn_addItem").click(() => {
+            var inputData = getProductInputData();
+            var tr = "<tr>";
+            var td = "<td>";
+            var trEnd = "</tr>";
+            var tdEnd = "</td>";
+
+            var productCell = '<input type="hidden" name="orderItems[' + index + '].productId" value="' + inputData.productId + '" />';
+            productCell += inputData.productName;
+            var qtyCell = '<input type="hidden" name="orderItems[' + index + '].qty" value="' + inputData.qty + '" />';
+            qtyCell += inputData.qty;
+            var remarksCell = '<input type="hidden" name="orderItems[' + index + '].remarks" value="' + inputData.remarks + '"/>';
+            remarksCell += inputData.remarks;
+
+            var row = tr;
+            row += td + productCell + tdEnd;
+            row += td + qtyCell + tdEnd;
+            row += td + remarksCell + tdEnd;
+            row += trEnd;
+
+            $("#tb_items").append(row);
+            index++;
+
+        });
+
+        function getProductInputData() {
+            var productDd = $('#productId');
+
+            var productId = productDd.val();
+            var productName = productDd.children("option:selected").text();
+
+            var qty = $("#qty").val();
+            var remarks = $("#remarks").val();
+            return { productId: productId, productName: productName, qty: qty, remarks: remarks };
+
+        }
+
+    </script>
+}

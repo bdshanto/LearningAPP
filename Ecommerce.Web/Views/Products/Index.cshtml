@@ -1,0 +1,36 @@
+﻿@model ICollection<Ecommerce.Library.Models.Product>
+
+@{
+     
+    Layout = "_MyLayout";
+}
+
+
+<div class="card-header">
+    <h1>Index</h1>
+</div>
+<div class="card-body">
+    <table class="table table-responsive table-striped table-hover table-active table-bordered ">
+        <thead>
+        <tr>
+            <td>Name</td>
+            <td>Code</td>
+            <td>Price</td>
+            <td>WH Location</td>
+            <td>Shop</td>
+        </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Code</td>
+                    <td>@item.Price</td>
+                    <td>@item.WarehouseLocation</td>
+                    <td>@(item.Shop?.Name ?? "Not Assign")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

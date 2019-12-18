@@ -1,0 +1,88 @@
+﻿
+@{
+    Layout = "_MyLayout";
+
+}
+
+<div class="container col-5">
+    <div class="form-group row">
+        <label>Shop</label>
+        <select id="shopId" asp-items=" ViewBag.Shops">
+            <option>---Select---</option>
+        </select>
+    </div>
+    <div class="form-group row">
+        <label>Products</label>
+        <select id="productId" class="form-control">
+            <option>---Select---</option>
+        </select>
+
+    </div>
+    <div id="showBox">
+        <div class="card">
+            <div class="card-header">
+                Product Information !
+            </div>
+            <div class="card-body">
+                <label class="productName"></label>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    <script>
+        $("#shopId").change(() => {
+            /*select shop*/
+            var shopId = $("#shopId").val();
+            var shopName = $("#shopId option:selected").text();
+            //select product
+
+            //server side request
+            //              key:    :   Value
+            var jasonData = { shopId: shopId };
+            $.ajax({
+
+                url: "/products/getProductByShopId",
+                type: "POST",
+                data: jasonData,
+
+                success: function (productList) {
+                    //render products as action
+                    $("#productId").empty();
+                    $("#productId").append("<option>---Select---</option>");
+                    $.each(productList, function (key, product) {
+                        var option = '<option value="' + product.id + '">' + product.name + '</option>';
+                        $("#productId").append(option);
+
+                    });
+                },
+                error: function (errorResponse) {
+
+                }
+            });
+
+        });
+        $("#productId").change(function () {
+
+            var productId = $("#productId").val();
+            var productName = $("#productId option:selected").text();
+            var jsonData = { productId: productId }
+
+            $.ajax({
+                url: "/products/GetProductById",
+                type: "POST",
+                data: jsonData,
+                success: function (product) {
+                    var body = '<p>"' + product.name + '"</p>';
+                    body += '<p>"' + product.code + '"</P>';
+                    body += '<p>"' + product.price + '"</p>',
+                    $("#showBox").html(body);
+                }
+            });
+        });
+
+
+    </script>
+}
