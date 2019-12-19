@@ -79,7 +79,9 @@ namespace Ecommerce.Web.Controllers
         }
         public IActionResult GetProductById(int productId)
         {
-            var product = _unityOfWork.ProductRepository.GetById(productId);
+            var product = _unityOfWork
+                .ProductRepository
+                .GetById(productId);
             return Json(product);
         }
     }

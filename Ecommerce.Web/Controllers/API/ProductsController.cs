@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Ecommerce.Library.DTO;
 using Ecommerce.Library.Models;
 using Ecommerce.Library.Repositories;
 using Ecommerce.Library.ViewModels.API.Products;
@@ -21,12 +22,12 @@ namespace Ecommerce.Web.Controllers.API
 
         // GET
 
-        public IEnumerable<ProductVM> Get()
+        public IEnumerable<ProductVM> Get(ProductSearchCriteriaDTO model)
         {
 
             var products = _unityOfWork
                 .ProductRepository
-                .GetAll()
+                .Search(model)
                 .Select(c => new ProductVM(){
                     Id = c.Id,Name = c.Name,Price = c.Price,Code = c.Code,
                    Shop = new ShopVm
@@ -35,10 +36,31 @@ namespace Ecommerce.Web.Controllers.API
                        Id = c.Id
                    }
                 });
-
-
-
             return products.ToList();
+        }
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            var products = _unityOfWork.ProductRepository.GetById(id);
+
+            if (products==null)
+            {
+                return NotFound();
+            }
+            var product = new ProductVM()
+            {
+                Id = products.Id,
+                Name = products.Name,
+                Code = products.Code,
+                Price = products.Price,
+                Shop = new ShopVm()
+                {
+                    Id = products.Shop.Id,
+                    Name = products.Shop?.Name
+                }
+
+            };
+            return Ok(product);
         }
     }
 }

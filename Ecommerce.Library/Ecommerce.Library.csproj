@@ -18,8 +18,4 @@
     <PackageReference Include="microsoft.entityframeworkcore.design" Version="3.0.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DTO\" />
-  </ItemGroup>
-
 </Project>

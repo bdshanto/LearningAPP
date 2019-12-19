@@ -44,8 +44,8 @@
             var jasonData = { shopId: shopId };
             $.ajax({
 
-                url: "/products/getProductByShopId",
-                type: "POST",
+                url: "/api/products",
+                type: "GET",
                 data: jasonData,
 
                 success: function (productList) {
@@ -68,16 +68,17 @@
 
             var productId = $("#productId").val();
             var productName = $("#productId option:selected").text();
-            var jsonData = { productId: productId }
+           
 
             $.ajax({
-                url: "/products/GetProductById",
-                type: "POST",
-                data: jsonData,
+                url: "/api/products/"+productId,
+                type: "GET",
+             
                 success: function (product) {
-                    var body = '<p>"' + product.name + '"</p>';
-                    body += '<p>"' + product.code + '"</P>';
-                    body += '<p>"' + product.price + '"</p>',
+                    $("#showBox").empty();
+                    var body = '<p> Name:"' + product.name + '"</p>';
+                    body += '<p> Code:"' + product.code + '"</P>';
+                    body += '<p> Price"' + product.price + '"</p>',
                     $("#showBox").html(body);
                 }
             });
