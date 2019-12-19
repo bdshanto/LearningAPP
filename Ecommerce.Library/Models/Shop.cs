@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Ecommerce.Library.Contracts;
+using Ecommerce.Library.ViewModels.API.Products;
 
 namespace Ecommerce.Library.Models
 {
@@ -22,6 +23,7 @@ namespace Ecommerce.Library.Models
         public DateTime? DeletedOn { get; set; }
         public string DeleteRemarks { get; set; }
         public virtual ICollection<Product> Products { get; set; }
+
         
     }
 }

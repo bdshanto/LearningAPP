@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Ecommerce.Library.Models;
 using Ecommerce.Library.Repositories;
+using Ecommerce.Library.ViewModels.API.Products;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Web.Controllers.API
@@ -20,22 +21,19 @@ namespace Ecommerce.Web.Controllers.API
 
         // GET
 
-        public IEnumerable<dynamic> Get()
+        public IEnumerable<ProductVM> Get()
         {
 
             var products = _unityOfWork
                 .ProductRepository
                 .GetAll()
-                .Select(c => new
-                {
-                    c.Id,
-                    c.Name,
-                    c.Price,
-                    Shop = new Shop
-                    {
-                        Id = c.Id,
-                        Name = c.Name,
-                    }
+                .Select(c => new ProductVM(){
+                    Id = c.Id,Name = c.Name,Price = c.Price,Code = c.Code,
+                   Shop = new ShopVm
+                   {
+                       Name = c.Name,
+                       Id = c.Id
+                   }
                 });
 
 
