@@ -6,6 +6,7 @@ using Ecommerce.Library.Models;
 using Ecommerce.Library.Repositories;
 using Ecommerce.Library.ViewModels.API.Products;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Ecommerce.Web.Controllers.API
 {
@@ -20,7 +21,7 @@ namespace Ecommerce.Web.Controllers.API
         }
 
 
-        // GET
+        // GET all
 
         public IEnumerable<ProductVM> Get(ProductSearchCriteriaDTO model)
         {
@@ -38,6 +39,7 @@ namespace Ecommerce.Web.Controllers.API
                 });
             return products.ToList();
         }
+        //get by id
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -62,7 +64,7 @@ namespace Ecommerce.Web.Controllers.API
             };
             return Ok(product);
         }
-
+        //add a file 
         [HttpPost]
         public IActionResult Post([FromBody]Product model)
         {
@@ -80,5 +82,50 @@ namespace Ecommerce.Web.Controllers.API
             }
             return BadRequest(ModelState);
         }
+        //update data
+        [HttpPut]
+        public IActionResult Put([FromQuery] int id, [FromBody] Product product)
+        {
+            var existProduct = _unityOfWork.ProductRepository.GetById(id); 
+            if (existProduct==null)
+            {
+                return BadRequest("Product not found");
+            }
+
+            existProduct.Id = product.Id;
+            existProduct.Price = product.Price;
+            existProduct.Shop.Id = product.Shop.Id;
+            existProduct.Shop.Name = product.Shop.Name;
+            existProduct.WarehouseLocation=product.WarehouseLocation;
+
+
+
+            _unityOfWork.ProductRepository.Update(existProduct);
+            bool isUpdated = _unityOfWork.SaveChange();
+            if (isUpdated)
+            {
+                return Ok();
+            }
+
+            return BadRequest("bad request");
+        }
+        [HttpDelete("{id}")]
+        public IActionResult Delete([FromQuery]int id,[FromBody] string name)
+        {
+            var product = _unityOfWork.ProductRepository.GetById(id);
+            if (product==null)
+            {
+                return NotFound();
+            }
+            _unityOfWork.ProductRepository.Remove(product);
+            bool idDeleted = _unityOfWork.SaveChange();
+            if (idDeleted)
+            {
+                return Ok();
+            }
+
+            return BadRequest();
+        }
+        
     }
 }

@@ -51,9 +51,9 @@ namespace Ecommerce.Library.Repositories
         public List<Product> GetAll()
         {
             /*Eager Loading*/
-                        return _db.Products.Include(c=>c.Shop).ToList();
+            return _db.Products.Include(c => c.Shop).ToList();
 
-//            return _db.Products.ToList();
+            //            return _db.Products.ToList();
         }
 
         public ICollection<Product> Search(ProductSearchCriteriaDTO dto)
@@ -63,7 +63,7 @@ namespace Ecommerce.Library.Repositories
             //IQueryable
             //AsEnumerable
             /////
-            var products = _db.Products.Include(c=>c.Shop).AsQueryable();
+            var products = _db.Products.Include(c => c.Shop).AsQueryable();
             if (!string.IsNullOrEmpty(dto.Name))
             {
                 products = products.Where(c => c.Name.ToLower().Contains(dto.Name.ToLower()));
@@ -74,17 +74,17 @@ namespace Ecommerce.Library.Repositories
                 products = products.Where(c => c.Code.ToLower().Contains(c.Code.ToLower()));
             }
 
-            if (dto.FromSalesPrice>0)
+            if (dto.FromSalesPrice > 0)
             {
                 products = products.Where(c => c.Price > dto.FromSalesPrice);
             }
 
-            if (dto.ToSalesPrice>0)
+            if (dto.ToSalesPrice > 0)
             {
-                products=products.Where(c=>c.Price<=dto.ToSalesPrice);
+                products = products.Where(c => c.Price <= dto.ToSalesPrice);
             }
 
-            if (dto.ShopId != null&& dto.ShopId >0)
+            if (dto.ShopId != null && dto.ShopId > 0)
             {
                 products = products.Where(c => c.ShopId == dto.ShopId);
             }
@@ -94,7 +94,7 @@ namespace Ecommerce.Library.Repositories
 
         public ICollection<Product> GetShopId(int shopId)
         {
-            return _db.Products.Where(x => x.ShopId==shopId).ToList();
+            return _db.Products.Where(x => x.ShopId == shopId).ToList();
         }
     }
 }
