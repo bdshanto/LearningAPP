@@ -62,5 +62,23 @@ namespace Ecommerce.Web.Controllers.API
             };
             return Ok(product);
         }
+
+        [HttpPost]
+        public IActionResult Post([FromBody]Product model)
+        {
+            if (ModelState.IsValid)
+            {
+                _unityOfWork.ProductRepository.Add(model);
+                bool idSuccess = _unityOfWork.SaveChange();
+                if (idSuccess)
+                {
+                    return Ok(model);
+
+                }
+
+              
+            }
+            return BadRequest(ModelState);
+        }
     }
 }
