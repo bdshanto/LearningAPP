@@ -1,23 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Ecommerce.Library.DTO;
 using Ecommerce.Library.Models;
 using Ecommerce.Library.Repositories;
 using Ecommerce.Library.ViewModels.API.Products;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Ecommerce.Web.Controllers.API
 {
     [Route("api/products")]
     public class ProductsController : ControllerBase
     {
-        UnityOfWork _unityOfWork;
+        IUnityOfWork _unityOfWork;
 
-        public ProductsController()
+        public ProductsController(IUnityOfWork unityOfWork)
         {
-            _unityOfWork = new UnityOfWork();
+            _unityOfWork = unityOfWork;
         }
 
 
@@ -110,7 +108,7 @@ namespace Ecommerce.Web.Controllers.API
             return BadRequest("bad request");
         }
         [HttpDelete("{id}")]
-        public IActionResult Delete([FromQuery]int id,[FromBody] string name)
+        public IActionResult Delete([FromQuery]int id )
         {
             var product = _unityOfWork.ProductRepository.GetById(id);
             if (product==null)

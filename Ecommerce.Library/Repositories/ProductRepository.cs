@@ -25,7 +25,7 @@ namespace Ecommerce.Library.Repositories
         {
             _db.Entry(entity).State = EntityState.Modified;
         }
-
+         
 
         public void Remove(Product entity)
         {

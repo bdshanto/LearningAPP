@@ -1,14 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Ecommerce.Library.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace Ecommerce.Library.DatabaseContext
 {
     public class EcommerceDatabaseContext : DbContext
     {
+        private IConfiguration _configuration;
+
+        public EcommerceDatabaseContext(IConfiguration configuration)
+        {
+            _configuration = configuration;
+
+        }
+
+
         public DbSet<Shop> Shops { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Customer> Customers { get; set; }
@@ -20,10 +26,12 @@ namespace Ecommerce.Library.DatabaseContext
         //Connection String
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=(local); Database=Ecommerce_DB; Integrated Security=True");
+            //connection string builder 
+            var connString = _configuration.GetConnectionString("AppConnectionString");
+            optionsBuilder.UseSqlServer(connString);
             /*Lazy loading*/
             /*optionsBuilder.UseLazyLoadingProxies();*/
-            
+
             base.OnConfiguring(optionsBuilder);
         }
         //Fluent API

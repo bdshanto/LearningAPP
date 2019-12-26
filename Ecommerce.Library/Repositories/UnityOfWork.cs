@@ -2,12 +2,12 @@
 
 namespace Ecommerce.Library.Repositories
 {
-    public class UnityOfWork
+    public class UnityOfWork:IUnityOfWork
     {
         private EcommerceDatabaseContext _db;
-        public UnityOfWork()
+        public UnityOfWork(EcommerceDatabaseContext db)
         {
-            _db = new EcommerceDatabaseContext();
+            _db =  db; 
         }
 
         private ProductRepository _productRepository;
@@ -29,7 +29,7 @@ namespace Ecommerce.Library.Repositories
         }
 
 
-        public ProductRepository ProductRepository
+        ProductRepository IUnityOfWork.ProductRepository
         {
             get
             {
@@ -42,7 +42,7 @@ namespace Ecommerce.Library.Repositories
             }
         }
 
-        public ShopRepository ShopRepository
+        ShopRepository ShopRepository
         {
             get
             {

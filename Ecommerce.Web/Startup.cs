@@ -2,9 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Ecommerce.Library.DatabaseContext;
+using Ecommerce.Library.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -20,15 +25,38 @@ namespace Ecommerce.Web
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        // This method gets called by the runtime.
+        // Use this method to add services to the container.
+        // Dependency Injection mapping
         public void ConfigureServices(IServiceCollection services)
-        {
+        { //Create a connectionString
+            services
+                .AddDbContext<EcommerceDatabaseContext>(options =>options
+                    .UseSqlServer(Configuration
+                        .GetConnectionString("AppConnectionString")));
+
+
             services.AddControllersWithViews();
-            services.AddRazorPages()
-                .AddRazorRuntimeCompilation();
+            /*Razor to edit in debugger mode*/
+            services.AddRazorPages().AddRazorRuntimeCompilation();
+            //Transient working a single request
+            services.AddTransient<IUnityOfWork, UnityOfWork>();
+           // services.AddTransient<IProductRepository,ProductRepository>();
+            services.AddTransient<EcommerceDatabaseContext>();
+            services.AddMvc()
+                //XML Output
+                .AddMvcOptions(option =>
+                {
+                    option.OutputFormatters.Add(new XmlSerializerOutputFormatter());
+
+                })
+               // .AddJsonOptions(options => { options.JsonSerializerOptions.IgnoreNullValues = true; } )
+                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        // This method gets called by the runtime.
+        // Use this method to configure the HTTP request pipeline.
+        //Middleware services
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
 
@@ -43,12 +71,14 @@ namespace Ecommerce.Web
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
+            //wwwroot 
             app.UseStaticFiles();
+            app.UseCookiePolicy();
 
             app.UseRouting();
 
             app.UseAuthorization(
-                
+
                 );
 
             app.UseEndpoints(endpoints =>

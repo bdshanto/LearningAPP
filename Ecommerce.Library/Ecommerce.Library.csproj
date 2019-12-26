@@ -16,6 +16,7 @@
     <PackageReference Include="microsoft.entityframeworkcore.sqlserver" Version="3.0.0" />
     <PackageReference Include="microsoft.entityframeworkcore.tools" Version="3.0.0" />
     <PackageReference Include="microsoft.entityframeworkcore.design" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.0.0" />
   </ItemGroup>
 
 </Project>
