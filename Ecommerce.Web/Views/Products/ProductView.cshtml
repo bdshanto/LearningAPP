@@ -69,7 +69,7 @@
             var productId = $("#productId").val();
             var productName = $("#productId option:selected").text();
            
-
+             
             $.ajax({
                 url: "/api/products/"+productId,
                 type: "GET",

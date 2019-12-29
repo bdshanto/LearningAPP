@@ -7,11 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20191201083934_Test.cs" />
-    <Compile Remove="Migrations\20191201083934_Test.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="microsoft.EntityFrameworkCore.proxies" Version="3.0.0" />
     <PackageReference Include="microsoft.entityframeworkcore.sqlserver" Version="3.0.0" />
     <PackageReference Include="microsoft.entityframeworkcore.tools" Version="3.0.0" />

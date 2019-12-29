@@ -1,26 +1,26 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Ecommerce.Library.Contracts;
-using Ecommerce.Library.DatabaseContext;
-using Ecommerce.Library.DTO;
-using Ecommerce.Library.Models;
-using Ecommerce.Repository.Base;
+using Ecommerce.DatabaseContext.DatabaseContext;
+using Ecommerce.Models.Contracts;
+using Ecommerce.Models.DTO;
+using Ecommerce.Repository.Abstraction.Base;
+using Ecommerce.Repository.Abstraction.Contracts; 
+using Ecommerce.Models.EntityModels;
 using Microsoft.EntityFrameworkCore;
 
-namespace Ecommerce.Library.Repositories
+namespace Ecommerce.Repository.Product
 {
-    public class ProductRepository : Repository<Product>
+    public class ProductRepository : Repository<Models.EntityModels.Product>,IProductRepository
     {
         // 
-        private EcommerceDatabaseContext _db;  
+        private EcommerceDatabaseContext _db;
+     
         public ProductRepository(DbContext db):base(db)
         {
             _db = (EcommerceDatabaseContext)db;
-        }
-       
-         
+        } 
 
-        public override void Remove(Product entity)
+        public override void Remove(Models.EntityModels.Product entity)
         {
             // ReSharper disable once MergeCastWithTypeCheck
             if (entity is IDeleteable)
@@ -32,16 +32,17 @@ namespace Ecommerce.Library.Repositories
             else
             {
                 _db.Products.Remove(entity);
-            }
+                
+            } 
         }
 
-        public override Product GetById(int id)
+        public override Models.EntityModels.Product GetById(int id)
         {
             return _db.Products.Include(c => c.Shop).FirstOrDefault(c => c.Id == id);
         }
 
 
-        public override ICollection<Product> GetAll()
+        public override ICollection<Models.EntityModels.Product> GetAll()
         {
             /*Eager Loading*/
             return _db.Products.Include(c => c.Shop).ToList();
@@ -49,7 +50,7 @@ namespace Ecommerce.Library.Repositories
             //            return _db.Products.ToList();
         }
 
-        public ICollection<Product> Search(ProductSearchCriteriaDTO dto)
+        public List<Models.EntityModels.Product> Search(ProductSearchCriteriaDTO dto)
         {
             /////
             ////difference between 
@@ -85,7 +86,7 @@ namespace Ecommerce.Library.Repositories
         }
 
 
-        public ICollection<Product> GetShopId(int shopId)
+        public ICollection<Models.EntityModels.Product> GetShopId(int shopId)
         {
             return _db.Products.Where(x => x.ShopId == shopId).ToList();
         }

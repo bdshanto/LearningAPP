@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿ 
+using System.Collections.Generic;
 using System.Linq;
-using Ecommerce.Library.DTO;
-using Ecommerce.Library.Models;
-using Ecommerce.Library.Repositories;
-using Ecommerce.Library.ViewModels.API.Products;
+using Ecomerce.BLL.Abstraction.Contracts;
+using Ecommerce.Models.DTO;
+using Ecommerce.Models.EntityModels;
+using Ecommerce.Models.ViewModels.API.Products;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Web.Controllers.API
@@ -11,11 +12,12 @@ namespace Ecommerce.Web.Controllers.API
     [Route("api/products")]
     public class ProductsController : ControllerBase
     {
-        IUnityOfWork _unityOfWork;
+        
+        private IProductManager _manager;
 
-        public ProductsController(IUnityOfWork unityOfWork)
+        public ProductsController(IProductManager manager)
         {
-            _unityOfWork = unityOfWork;
+            _manager = manager;
         }
 
 
@@ -24,8 +26,7 @@ namespace Ecommerce.Web.Controllers.API
         public IEnumerable<ProductVM> Get(ProductSearchCriteriaDTO model)
         {
 
-            var products = _unityOfWork
-                .ProductRepository
+            var products = _manager
                 .Search(model)
                 .Select(c => new ProductVM(){
                     Id = c.Id,Name = c.Name,Price = c.Price,Code = c.Code,
@@ -41,7 +42,7 @@ namespace Ecommerce.Web.Controllers.API
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var products = _unityOfWork.ProductRepository.GetById(id);
+            var products = _manager.GetById(id);
 
             if (products==null)
             {
@@ -68,13 +69,11 @@ namespace Ecommerce.Web.Controllers.API
         {
             if (ModelState.IsValid)
             {
-                _unityOfWork.ProductRepository.Add(model);
-                bool idSuccess = _unityOfWork.SaveChange();
-                if (idSuccess)
-                {
+                _manager.Add(model);
+                
                     return Ok(model);
 
-                }
+                
 
               
             }
@@ -84,7 +83,7 @@ namespace Ecommerce.Web.Controllers.API
         [HttpPut]
         public IActionResult Put([FromQuery] int id, [FromBody] Product product)
         {
-            var existProduct = _unityOfWork.ProductRepository.GetById(id); 
+            var existProduct = _manager.GetById(id); 
             if (existProduct==null)
             {
                 return BadRequest("Product not found");
@@ -98,25 +97,25 @@ namespace Ecommerce.Web.Controllers.API
 
 
 
-            _unityOfWork.ProductRepository.Update(existProduct);
-            bool isUpdated = _unityOfWork.SaveChange();
+           _manager.Update(existProduct);
+            /*bool isUpdated = _unityOfWork.SaveChange();
             if (isUpdated)
-            {
+            {*/
                 return Ok();
-            }
+            /*}
 
-            return BadRequest("bad request");
+            return BadRequest("bad request");*/
         }
         [HttpDelete("{id}")]
         public IActionResult Delete([FromQuery]int id )
         {
-            var product = _unityOfWork.ProductRepository.GetById(id);
+            var product = _manager.GetById(id);
             if (product==null)
             {
                 return NotFound();
             }
-            _unityOfWork.ProductRepository.Remove(product);
-            bool idDeleted = _unityOfWork.SaveChange();
+            
+            bool idDeleted = _manager.Remove(product);
             if (idDeleted)
             {
                 return Ok();

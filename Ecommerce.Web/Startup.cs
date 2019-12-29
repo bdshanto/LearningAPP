@@ -1,19 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Ecommerce.Library.DatabaseContext;
-using Ecommerce.Library.Repositories;
+using Ecommerce.DatabaseContext.DatabaseContext;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
+ 
 namespace Ecommerce.Web
 {
     public class Startup
@@ -39,17 +32,17 @@ namespace Ecommerce.Web
             services.AddControllersWithViews();
             /*Razor to edit in debugger mode*/
             services.AddRazorPages().AddRazorRuntimeCompilation();
-            //Transient working a single request
-            services.AddTransient<IUnityOfWork, UnityOfWork>();
-           // services.AddTransient<IProductRepository,ProductRepository>();
-            services.AddTransient<EcommerceDatabaseContext>();
+
+            IoCContainer.IoCContainer.Configure(services);
+            //Transient working a single request 
             services.AddMvc()
+                
                 //XML Output
-                .AddMvcOptions(option =>
+                /*.AddMvcOptions(option =>
                 {
                     option.OutputFormatters.Add(new XmlSerializerOutputFormatter());
 
-                })
+                })*/
                // .AddJsonOptions(options => { options.JsonSerializerOptions.IgnoreNullValues = true; } )
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
         }

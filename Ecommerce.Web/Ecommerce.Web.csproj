@@ -23,7 +23,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Ecommerce.Library\Ecommerce.Library.csproj" />
+    <ProjectReference Include="..\Ecomerce.BLL.Abstraction\Ecomerce.BLL.Abstraction.csproj" />
+    <ProjectReference Include="..\Ecommerce.IoCContainer\Ecommerce.IoCContainer.csproj" />
+    <ProjectReference Include="..\Ecommerce.Models\Ecommerce.Models.csproj" />
   </ItemGroup>
 
   <ItemGroup>
