@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using Ecommerce.Library.Models;
-using Ecommerce.Library.Repositories;
+using Ecommerce.BLL.Abstraction.Contracts;
+using Ecommerce.Models.EntityModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -8,16 +8,16 @@ namespace Ecommerce.Web.Controllers
 {
     public class PurchesOrderController:Controller
     {
-        UnityOfWork _unityOfWork;
-        public PurchesOrderController()
+        private IPurchesOrderManager _purchesOrderManager;
+        public PurchesOrderController( IPurchesOrderManager purchesOrderManager)
         {
-            _unityOfWork = new UnityOfWork();
+            _purchesOrderManager = purchesOrderManager;
         }
 
         [HttpGet]
         public IActionResult Create()
         {
-            var products = _unityOfWork.ProductRepository.GetAll();
+            var products = _purchesOrderManager.GetAll();
 
             var items = products.Select(x => new SelectListItem()
             {

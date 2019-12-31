@@ -52,6 +52,7 @@ namespace Ecommerce.DatabaseContext.DatabaseContext
 
             /*query filter*/
             modelBuilder.Entity<Product>().HasQueryFilter(c => c.IsDeleted == false);
+
         }
     }
 }

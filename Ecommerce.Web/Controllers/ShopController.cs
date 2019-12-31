@@ -1,21 +1,22 @@
-﻿using Ecommerce.Library.Repositories;
+﻿ 
+using Ecommerce.BLL.Abstraction.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Web.Controllers
 {
     public class ShopController : Controller
     {
-        private UnityOfWork _unityOfWork; 
-        public ShopController()
+        private IShopManager _shopManager;
+
+        public ShopController(IShopManager shopManager)
         {
-            _unityOfWork = new UnityOfWork();
+            _shopManager = shopManager;
         }
-         
         // GET
         [HttpGet]
         public IActionResult Index()
         {
-            var shops = _unityOfWork.ShopRepository.GetAll();
+            var shops = _shopManager.GetAll();
             return View(shops);
         }
     }

@@ -1,27 +1,25 @@
-﻿using Ecommerce.DatabaseContext;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Ecommerce.DatabaseContext;
 using Ecommerce.DatabaseContext.DatabaseContext;
 using Ecommerce.Models.EntityModels;
+using Ecommerce.Repository.Abstraction.Base;
+using Ecommerce.Repository.Abstraction.Contracts;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Repository
 {
-    public class PurchesOrderRepository
+    public class PurchesOrderRepository:Repository<PurchesOrder>,IPurchesOrderRepository
     {
-        private EcommerceDatabaseContext _db;
-
-        //plambing process
-        public PurchesOrderRepository(EcommerceDatabaseContext dbContext)
+        private EcommerceDatabaseContext _dbContext;
+        public PurchesOrderRepository(EcommerceDatabaseContext dbContext):base(dbContext)
         {
-            _db = dbContext;
+            _dbContext = dbContext;
         }
 
-        public void Add(PurchesOrder entity)
+        public override ICollection<PurchesOrder> GetAll()
         {
-            _db.PurchesOrders.Add(entity);
-        }
-
-        public void Update(PurchesOrder entity)
-        {
-            _db.PurchesOrders.Add(entity);
+            return _dbContext.PurchesOrders.Include(c=>c.Id).ToList()l
         }
     }
 }

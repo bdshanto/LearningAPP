@@ -3,54 +3,28 @@ using System.Linq;
 using Ecommerce.DatabaseContext.DatabaseContext;
 using Ecommerce.Models.Contracts;
 using Ecommerce.Models.EntityModels;
+using Ecommerce.Repository.Abstraction.Base;
+using Ecommerce.Repository.Abstraction.Contracts;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Repository
 {
-    public class ShopRepository
+    public class ShopRepository:Repository<Shop>,IShopRepository
     {
 
         private EcommerceDatabaseContext _db; 
-        public ShopRepository(EcommerceDatabaseContext db)
+        public ShopRepository(DbContext db):base(db)
         {
 
-            _db = db;
+            _db = db as EcommerceDatabaseContext;
         } 
-        public void Add(Shop entity)
-        {
-            _db.Shops.Add(entity);
-        } 
+     
 
-        public void Update(Shop entity)
+        public override void Update(Shop entity)
         {
             _db.Entry(entity).State = EntityState.Modified;
-        }
-
-
-        public void Remove(Shop entity)
-        {
-            if (entity is IDeleteable)
-            {
-                IDeleteable item = (IDeleteable)entity;
-                item.IsDeleted = true;
-                Update(entity);
-            }
-            else
-            {
-                _db.Shops.Remove(entity);
-            }
-        }
-
-        public Shop GetById(int id)
-        {
-            return _db.Shops.Find(id);
-        }
-
-        public List<Shop> GetAll()
-        {
-            return _db.Shops.Include(c => c.Products).ToList();
-        }
-
+        } 
+         
         //Explicit Loading
         public void LoadProduct(Shop shop)
         {

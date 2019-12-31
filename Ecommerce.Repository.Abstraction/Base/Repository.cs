@@ -9,35 +9,35 @@ namespace Ecommerce.Repository.Abstraction.Base
 {
     public abstract class Repository<T>:IRepository<T> where T : class //type identifier
     {
-        private DbContext _dbContext;
+        private DbContext _db;
           
-        protected Repository(DbContext dbContext)
+        protected Repository(DbContext db)
         {
-            _dbContext = dbContext;
+            _db = db;
         } 
 
          DbSet<T> Table
         {
-            get { return _dbContext.Set<T>(); }
+            get { return _db.Set<T>(); }
         } 
-       // private DbSet<T> Table => _dbContext.Set<T>();
+       // private DbSet<T> Table => _db.Set<T>();
 
         public virtual void Add(T entity)
         {
             Table.Add(entity);
-            _dbContext.SaveChanges();
+            _db.SaveChanges();
         }
 
         public virtual void Update(T entity)
         {
-            _dbContext.Entry(entity).State = EntityState.Modified;
-            _dbContext.SaveChanges();
+            _db.Entry(entity).State = EntityState.Modified;
+            _db.SaveChanges();
         }
 
         public virtual void Remove(T entity)
         {
-            _dbContext.Remove(entity);
-            _dbContext.SaveChanges();
+            _db.Remove(entity);
+            _db.SaveChanges();
         }
 
         public virtual ICollection<T> GetAll()

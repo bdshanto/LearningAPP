@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using Ecommerce.Library.Models;
 using Ecommerce.Library.Repositories;
+using Ecommerce.Models.EntityModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 

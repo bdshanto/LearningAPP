@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="IUnityOfWork.cs" />
+    <Compile Remove="UnityOfWork.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Ecommerce.DatabaseContext\Ecommerce.DatabaseContext.csproj" />
     <ProjectReference Include="..\Ecommerce.Models\Ecommerce.Models.csproj" />
     <ProjectReference Include="..\Ecommerce.Repository.Abstraction\Ecommerce.Repository.Abstraction.csproj" />
