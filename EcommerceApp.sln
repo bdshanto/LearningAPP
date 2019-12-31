@@ -5,19 +5,19 @@ VisualStudioVersion = 16.0.29519.87
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecommerce.Web", "Ecommerce.Web\Ecommerce.Web.csproj", "{60A8930B-ADB7-44C6-A712-7ADBDF7F8218}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.BLL", "Ecommerce.BLL\Ecommerce.BLL.csproj", "{3FBFBD21-16AF-4D5A-8AEF-8D194051A2D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecommerce.BLL", "Ecommerce.BLL\Ecommerce.BLL.csproj", "{3FBFBD21-16AF-4D5A-8AEF-8D194051A2D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecomerce.BLL.Abstraction", "Ecomerce.BLL.Abstraction\Ecomerce.BLL.Abstraction.csproj", "{457B91CB-5C90-4604-8009-1C9B2F284CB9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecommerce.BLL.Abstraction", "Ecomerce.BLL.Abstraction\Ecommerce.BLL.Abstraction.csproj", "{457B91CB-5C90-4604-8009-1C9B2F284CB9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.Repository", "Ecommerce.Repository\Ecommerce.Repository.csproj", "{9FFA7571-4412-41E1-BB65-D82F6B69FFBC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecommerce.Repository", "Ecommerce.Repository\Ecommerce.Repository.csproj", "{9FFA7571-4412-41E1-BB65-D82F6B69FFBC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.Repository.Abstraction", "Ecommerce.Repository.Abstraction\Ecommerce.Repository.Abstraction.csproj", "{FD73C5CD-B315-43AE-800E-0301AE0C15F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecommerce.Repository.Abstraction", "Ecommerce.Repository.Abstraction\Ecommerce.Repository.Abstraction.csproj", "{FD73C5CD-B315-43AE-800E-0301AE0C15F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.IoCContainer", "Ecommerce.IoCContainer\Ecommerce.IoCContainer.csproj", "{04FAE932-7148-4FFF-B215-C5E472ABD6A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecommerce.IoCContainer", "Ecommerce.IoCContainer\Ecommerce.IoCContainer.csproj", "{04FAE932-7148-4FFF-B215-C5E472ABD6A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.DatabaseContext", "Ecommerce.DatabaseContext\Ecommerce.DatabaseContext.csproj", "{FE3085EB-E7D5-42C0-8A63-EF9B681E10EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecommerce.DatabaseContext", "Ecommerce.DatabaseContext\Ecommerce.DatabaseContext.csproj", "{FE3085EB-E7D5-42C0-8A63-EF9B681E10EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.Models", "Ecommerce.Models\Ecommerce.Models.csproj", "{6BCCC238-8F98-4BE2-BCAC-2AF4455A7090}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecommerce.Models", "Ecommerce.Models\Ecommerce.Models.csproj", "{6BCCC238-8F98-4BE2-BCAC-2AF4455A7090}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

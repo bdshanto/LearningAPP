@@ -1,7 +1,9 @@
-﻿using Ecomerce.BLL.Abstraction.Contracts;
-using Ecommerce.BLL;
+﻿using Ecommerce.BLL;
+using Ecommerce.BLL.Abstraction.Contracts;
 using Ecommerce.DatabaseContext.DatabaseContext;
 using Ecommerce.Models.EntityModels;
+using Ecommerce.Repository.Abstraction.Contracts;
+using Ecommerce.Repository.Products;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,6 +15,8 @@ namespace Ecommerce.IoCContainer
         {  
             //Transient working a single request
             services.AddTransient<IProductManager,ProductManager>();
+            services.AddTransient<IProductRepository, ProductRepository>();
+           
             services.AddTransient<DbContext,EcommerceDatabaseContext>();
            services.AddTransient<EcommerceDatabaseContext>(); 
         }

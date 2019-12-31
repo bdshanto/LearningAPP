@@ -1,11 +1,10 @@
-﻿using Ecommerce.Repository.Product;
+﻿using Ecommerce.Repository.Products;
 
 namespace Ecommerce.Repository
 {
     public interface IUnityOfWork
     {
-         ProductRepository ProductRepository { get; }
-
+         ProductRepository ProductRepository { get; } 
 
          bool SaveChange();
     }

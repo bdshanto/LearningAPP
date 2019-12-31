@@ -16,11 +16,11 @@ namespace Ecommerce.Repository.Abstraction.Base
             _dbContext = dbContext;
         } 
 
-        /**DbSet<T> Table
+         DbSet<T> Table
         {
             get { return _dbContext.Set<T>(); }
-        }*/
-        private DbSet<T> Table => _dbContext.Set<T>();
+        } 
+       // private DbSet<T> Table => _dbContext.Set<T>();
 
         public virtual void Add(T entity)
         {
@@ -44,6 +44,7 @@ namespace Ecommerce.Repository.Abstraction.Base
         {
             return Table.ToList();
         }
+
         public virtual T GetById(int id)
         {
             return Table.Find(id);

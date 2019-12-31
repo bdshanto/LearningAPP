@@ -2,7 +2,7 @@
 using Ecommerce.Models.DTO;
 using Ecommerce.Models.EntityModels;
 
-namespace Ecomerce.BLL.Abstraction.Contracts
+namespace Ecommerce.BLL.Abstraction.Contracts
 {
     public interface IProductManager:IManager<Product>
     {

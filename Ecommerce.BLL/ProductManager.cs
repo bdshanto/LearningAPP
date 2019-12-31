@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using Ecomerce.BLL.Abstraction.Base;
-using Ecomerce.BLL.Abstraction.Contracts;
+using Ecommerce.BLL.Abstraction.Base;
+using Ecommerce.BLL.Abstraction.Contracts;
 using Ecommerce.Models.DTO;
 using Ecommerce.Models.EntityModels;
 using Ecommerce.Repository.Abstraction.Contracts;

@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using Ecomerce.BLL.Abstraction.Contracts;
-using Ecommerce.Repository.Abstraction.Contracts; 
-namespace Ecomerce.BLL.Abstraction.Base
+using Ecommerce.Repository.Abstraction.Contracts;
+
+namespace Ecommerce.BLL.Abstraction.Base
 {
     public abstract class Manager<T> where T : class //type identifier
     {

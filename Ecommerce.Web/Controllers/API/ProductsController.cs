@@ -1,7 +1,7 @@
 ﻿ 
 using System.Collections.Generic;
 using System.Linq;
-using Ecomerce.BLL.Abstraction.Contracts;
+using Ecommerce.BLL.Abstraction.Contracts;
 using Ecommerce.Models.DTO;
 using Ecommerce.Models.EntityModels;
 using Ecommerce.Models.ViewModels.API.Products;
@@ -18,14 +18,11 @@ namespace Ecommerce.Web.Controllers.API
         public ProductsController(IProductManager manager)
         {
             _manager = manager;
-        }
+        } 
 
-
-        // GET all
-
+        // GET all 
         public IEnumerable<ProductVM> Get(ProductSearchCriteriaDTO model)
-        {
-
+        { 
             var products = _manager
                 .Search(model)
                 .Select(c => new ProductVM(){
@@ -69,13 +66,13 @@ namespace Ecommerce.Web.Controllers.API
         {
             if (ModelState.IsValid)
             {
-                _manager.Add(model);
-                
-                    return Ok(model);
+              bool isAdded=  _manager.Add(model);
 
-                
+              if (isAdded)
+              {
+                  return Ok(model);
+              }
 
-              
             }
             return BadRequest(ModelState);
         }

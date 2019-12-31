@@ -1,5 +1,5 @@
 ﻿using Ecommerce.DatabaseContext.DatabaseContext;
-using Ecommerce.Repository.Product;
+using Ecommerce.Repository.Products;
 
 namespace Ecommerce.Repository
 {
