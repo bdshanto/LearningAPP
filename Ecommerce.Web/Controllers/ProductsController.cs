@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Net.Mime;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
+﻿using System.Linq;
+using AutoMapper;
 using Ecommerce.BLL.Abstraction.Contracts;
 using Ecommerce.Models.EntityModels;
 using Ecommerce.Models.ViewModels.Web.Product;
@@ -15,11 +13,14 @@ namespace Ecommerce.Web.Controllers
         private IProductManager _productManager;
 
         private IShopManager _shopManager;
+
+        private IMapper _mapper;
         /*Contractors*/
-        public ProductsController(IProductManager productManager, IShopManager shopManager)
+        public ProductsController(IProductManager productManager, IShopManager shopManager, IMapper mapper)
         {
             _productManager = productManager;
             _shopManager = shopManager;
+            _mapper = mapper;
         }
 
         /*products/index*/
@@ -49,6 +50,7 @@ namespace Ecommerce.Web.Controllers
         [HttpPost]
         public IActionResult Create(ProductCreateVm model)
         {
+            var product=_mapper.Map<Product>(model);
 
 
             if (ModelState.IsValid)
@@ -57,7 +59,7 @@ namespace Ecommerce.Web.Controllers
                 bool isAdded = _productManager.Add(product);
                 if (isAdded)
                 {
-                    return View("Index");
+                    return RedirectToAction("Index");
                 }
             }
             return View();

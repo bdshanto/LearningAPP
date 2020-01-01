@@ -17,6 +17,7 @@ namespace Ecommerce.Models.ViewModels.Web.Product
         public double Price { get; set; }
 
         public string WarehouseLocation { get; set; }
+        public int ShopId { get; set; }
 
         [NotMapped]
         public List<EntityModels.Product> Products {get;set;}
