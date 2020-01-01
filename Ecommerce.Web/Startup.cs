@@ -1,3 +1,4 @@
+using AutoMapper;
 using Ecommerce.DatabaseContext.DatabaseContext;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -6,7 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
- 
+using Newtonsoft.Json;
+
 namespace Ecommerce.Web
 {
     public class Startup
@@ -28,8 +30,9 @@ namespace Ecommerce.Web
                     .UseSqlServer(Configuration
                         .GetConnectionString("AppConnectionString")));
 
-
-            services.AddControllersWithViews();
+               //services.AddJsonOptions(options => options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore);
+               //AutoMapper
+               services.AddAutoMapper(typeof(Startup));
             /*Razor to edit in debugger mode*/
             services.AddRazorPages().AddRazorRuntimeCompilation();
 
@@ -84,7 +87,7 @@ namespace Ecommerce.Web
 
                 endpoints.MapControllerRoute(
                      "default",
-                     "{controller=Home}/{action=Index}/{id?}");
+                     "{controller=Shop}/{action=Index}/{id?}");
             });
         }
     }

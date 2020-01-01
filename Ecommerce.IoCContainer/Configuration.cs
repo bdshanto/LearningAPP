@@ -11,18 +11,22 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Ecommerce.IoCContainer
 {
     public static class IoCContainer
-    {  
+    {
         public static void Configure(IServiceCollection services)
-        {  
+        {
             //Transient working a single request
-            services.AddTransient<IProductManager,ProductManager>();
+            services.AddTransient<IProductManager, ProductManager>();
             services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<ICustomerManager, CustomerManager>();
             services.AddTransient<ICustomerRepository, CustomerRepository>();
-           
-            services.AddTransient<DbContext,EcommerceDatabaseContext>();
-           services.AddTransient<EcommerceDatabaseContext>(); 
+            services.AddTransient<IShopManager, ShopManager>();
+            services.AddTransient<IShopRepository, ShopRepository>();
+            services.AddTransient<IPurchesOrderManager, PurchesOrderManager>();
+            services.AddTransient<IPurchesOrderRepository, PurchesOrderRepository>();
+
+            services.AddTransient<DbContext, EcommerceDatabaseContext>();
+            services.AddTransient<EcommerceDatabaseContext>();
         }
-        
+
     }
 }

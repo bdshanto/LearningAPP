@@ -19,7 +19,10 @@ namespace Ecommerce.Repository
 
         public override ICollection<PurchesOrder> GetAll()
         {
-            return _dbContext.PurchesOrders.Include(c=>c.Id).ToList()l
+            return _dbContext.PurchesOrders
+                .Include(c =>c.OrderItems)
+              
+                .ToList();
         }
     }
 }

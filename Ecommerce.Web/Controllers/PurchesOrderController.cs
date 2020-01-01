@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Ecommerce.BLL.Abstraction.Contracts;
 using Ecommerce.Models.EntityModels;
 using Microsoft.AspNetCore.Mvc;
@@ -9,23 +10,22 @@ namespace Ecommerce.Web.Controllers
     public class PurchesOrderController:Controller
     {
         private IPurchesOrderManager _purchesOrderManager;
-        public PurchesOrderController( IPurchesOrderManager purchesOrderManager)
+        private IProductManager _productManager;
+
+        public PurchesOrderController( IPurchesOrderManager purchesOrderManager, IProductManager productManager)
         {
             _purchesOrderManager = purchesOrderManager;
+            _productManager = productManager;
         }
+
 
         [HttpGet]
         public IActionResult Create()
         {
-            var products = _purchesOrderManager.GetAll();
+            var products = _productManager.GetAll();
 
-            var items = products.Select(x => new SelectListItem()
-            {
-                Text = x.Name,
-                Value = x.Id.ToString()
-
-            });
-            ViewBag.products = items;
+                
+            ViewBag.products =SelectProductListItems();
             return View();
         }
         [HttpPost]
@@ -34,21 +34,26 @@ namespace Ecommerce.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                _unityOfWork.PurchesOrderRepository.Add(model);
-               _unityOfWork.SaveChange();
+                _purchesOrderManager.Add(model);
+               
             }
-                
-           
-            var products = _unityOfWork.ProductRepository.GetAll();
+
+
+            var items = SelectProductListItems();
+            ViewBag.products = items;  
+            return View();
+        }
+
+        private IEnumerable<SelectListItem> SelectProductListItems()
+        {
+            var products = _productManager.GetAll();
+
             var items = products.Select(x => new SelectListItem()
             {
                 Text = x.Name,
                 Value = x.Id.ToString()
-
             });
-            ViewBag.products = items;  
-            return View();
+            return items;
         }
-        
     }
 }

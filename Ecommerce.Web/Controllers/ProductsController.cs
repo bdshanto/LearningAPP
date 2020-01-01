@@ -2,9 +2,9 @@
 using System.Net.Mime;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
-using Ecommerce.Library.Models;
-using Ecommerce.Library.Repositories;
+using Ecommerce.BLL.Abstraction.Contracts;
 using Ecommerce.Models.EntityModels;
+using Ecommerce.Models.ViewModels.Web.Product;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -12,17 +12,20 @@ namespace Ecommerce.Web.Controllers
 {
     public class ProductsController : Controller
     {     //Create
-        private readonly UnityOfWork _unityOfWork;
+        private IProductManager _productManager;
+
+        private IShopManager _shopManager;
         /*Contractors*/
-        public ProductsController()
+        public ProductsController(IProductManager productManager, IShopManager shopManager)
         {
-            _unityOfWork = new UnityOfWork();
+            _productManager = productManager;
+            _shopManager = shopManager;
         }
 
         /*products/index*/
         public IActionResult Index()
         {
-            var products = _unityOfWork.ProductRepository.GetAll();
+            var products = _productManager.GetAll();
             return View(products);
         }
         //products create
@@ -31,7 +34,7 @@ namespace Ecommerce.Web.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            var shops = _unityOfWork.ShopRepository.GetAll();
+            var shops = _shopManager.GetAll();
 
             var items = shops.Select(c => new SelectListItem()
             {
@@ -44,12 +47,14 @@ namespace Ecommerce.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Product product)
+        public IActionResult Create(ProductCreateVm model)
         {
+
+
             if (ModelState.IsValid)
             {
-                _unityOfWork.ProductRepository.Add(product);
-                bool isAdded = _unityOfWork.SaveChange();
+                
+                bool isAdded = _productManager.Add(product);
                 if (isAdded)
                 {
                     return View("Index");
@@ -60,7 +65,7 @@ namespace Ecommerce.Web.Controllers
         /*dropdown load */
         public IActionResult ProductView()
         {
-            var shops = _unityOfWork.ShopRepository.GetAll();
+            var shops = _shopManager.GetAll();
 
             var items = shops.Select(c => new SelectListItem()
             {
@@ -74,14 +79,13 @@ namespace Ecommerce.Web.Controllers
 
         public IActionResult GetProductByShopId(int shopId)
         {
-            var products = _unityOfWork.ProductRepository.GetShopId(shopId);
+            var products = _productManager.GetShopId(shopId);
             return Json(products);
             
         }
         public IActionResult GetProductById(int productId)
         {
-            var product = _unityOfWork
-                .ProductRepository
+            var product = _shopManager
                 .GetById(productId);
             return Json(product);
         }

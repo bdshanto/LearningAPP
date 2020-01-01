@@ -55,35 +55,27 @@
                     $.each(productList, function (key, product) {
                         var option = '<option value="' + product.id + '">' + product.name + '</option>';
                         $("#productId").append(option);
-
                     });
                 },
                 error: function (errorResponse) {
-
                 }
             });
-
         });
         $("#productId").change(function () {
 
             var productId = $("#productId").val();
             var productName = $("#productId option:selected").text();
-           
-             
             $.ajax({
-                url: "/api/products/"+productId,
+                url: "/api/products/" + productId,
                 type: "GET",
-             
                 success: function (product) {
                     $("#showBox").empty();
                     var body = '<p> Name:"' + product.name + '"</p>';
                     body += '<p> Code:"' + product.code + '"</P>';
                     body += '<p> Price"' + product.price + '"</p>',
-                    $("#showBox").html(body);
+                        $("#showBox").html(body);
                 }
             });
         });
-
-
     </script>
 }
