@@ -22,5 +22,9 @@ namespace Ecommerce.Library.Repositories
         {
             _db.PurchesOrders.Add(entity);
         }
+        public ICollection<PurchesOrder> GetAll()
+        {
+            return _db.PurchesOrders.Include(c=>c.OrderItems).ToList();
+        }
     }
 }
