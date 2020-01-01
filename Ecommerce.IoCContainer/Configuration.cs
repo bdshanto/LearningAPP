@@ -19,7 +19,7 @@ namespace Ecommerce.IoCContainer
             services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<ICustomerManager, CustomerManager>();
             services.AddTransient<ICustomerRepository, CustomerRepository>();
-           
+           //DatabaseContext DI
             services.AddTransient<DbContext,EcommerceDatabaseContext>();
            services.AddTransient<EcommerceDatabaseContext>(); 
         }
