@@ -3,11 +3,13 @@ using AutoMapper;
 using Ecommerce.BLL.Abstraction.Contracts;
 using Ecommerce.Models.EntityModels;
 using Ecommerce.Models.ViewModels.Web.Product;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Ecommerce.Web.Controllers
 {
+    [Authorize]
     public class ProductsController : Controller
     {     //Create
         private IProductManager _productManager;

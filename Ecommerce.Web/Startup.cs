@@ -2,12 +2,13 @@ using AutoMapper;
 using Ecommerce.DatabaseContext.DatabaseContext;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Newtonsoft.Json;
 
 namespace Ecommerce.Web
 {
@@ -24,29 +25,75 @@ namespace Ecommerce.Web
         // Use this method to add services to the container.
         // Dependency Injection mapping
         public void ConfigureServices(IServiceCollection services)
-        { //Create a connectionString
+        {  services.Configure<CookiePolicyOptions>(options =>
+            {
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+            
+            //Create a connectionString
             services
-                .AddDbContext<EcommerceDatabaseContext>(options =>options
+                .AddDbContext<EcommerceDatabaseContext>(options => options
                     .UseSqlServer(Configuration
                         .GetConnectionString("AppConnectionString")));
 
-               //services.AddJsonOptions(options => options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore);
-               //AutoMapper
-               services.AddAutoMapper(typeof(Startup));
+            //services.AddJsonOptions(options => options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore);
+            //AutoMapper
+            services.AddAutoMapper(typeof(Startup));
             /*Razor to edit in debugger mode*/
             services.AddRazorPages().AddRazorRuntimeCompilation();
 
             IoCContainer.IoCContainer.Configure(services);
+
+            /*services.AddAuthentication(option =>
+                {
+                    option.DefaultScheme = "Cookies";
+                    option.DefaultChallengeScheme = "oidc";
+                })
+                .AddCookie("Cookies")
+                .AddOpenIdConnect("oidc", option =>
+                {
+                    
+                    option.Authority = "https://localhost:44387/";
+                    option.RequireHttpsMetadata = false;
+
+                    option.ClientId = "web_client";
+                    option.ClientSecret = "secret";
+                    option.ResponseType = "code id_token";
+                    
+                    option.SignInScheme = "Cookies";
+                    option.SaveTokens = true;
+                    option.GetClaimsFromUserInfoEndpoint = true;
+
+                });*/
+            services.AddAuthentication(options =>
+                {
+                    options.DefaultScheme = "Cookies";
+                    options.DefaultChallengeScheme = "oidc";
+                })
+                .AddCookie("Cookies")
+                .AddOpenIdConnect("oidc", option =>
+                {
+                    option.Authority = "https://localhost:44387/";
+                    option.ClientId = "web_client";
+                    option.ClientSecret = "secret";
+                    option.SignInScheme = "Cookies";
+                    option.ResponseType = "code id_token";
+                    option.SaveTokens = true;
+                    option.RequireHttpsMetadata = true;
+                });
+
+
             //Transient working a single request 
-            services.AddMvc()
-                
+            services.AddMvc() 
                 //XML Output
-                /*.AddMvcOptions(option =>
+                 .AddMvcOptions(option =>
                 {
                     option.OutputFormatters.Add(new XmlSerializerOutputFormatter());
 
-                })*/
-               // .AddJsonOptions(options => { options.JsonSerializerOptions.IgnoreNullValues = true; } )
+                }) 
+                // .AddJsonOptions(options => { options.JsonSerializerOptions.IgnoreNullValues = true; } )
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
         }
 
@@ -68,15 +115,12 @@ namespace Ecommerce.Web
             }
             app.UseHttpsRedirection();
             //wwwroot 
-            app.UseStaticFiles();
-            app.UseCookiePolicy();
-
+            app.UseStaticFiles(); 
             app.UseRouting();
-
-            app.UseAuthorization(
-
-                );
-
+            app.UseCookiePolicy(); 
+            app.UseAuthentication();
+            app.UseAuthorization();
+            
             app.UseEndpoints(endpoints =>
             {
                 /*
