@@ -46,7 +46,7 @@ namespace Ecommerce.Web
 
             IoCContainer.IoCContainer.Configure(services);
 
-            services.AddAuthentication(option =>
+            /*services.AddAuthentication(option =>
                 {
                     option.DefaultScheme = "Cookies";
                     option.DefaultChallengeScheme = "oidc";
@@ -66,6 +66,22 @@ namespace Ecommerce.Web
                     option.SaveTokens = true;
                     option.GetClaimsFromUserInfoEndpoint = true;
 
+                });*/
+            services.AddAuthentication(options =>
+                {
+                    options.DefaultScheme = "Cookies";
+                    options.DefaultChallengeScheme = "oidc";
+                })
+                .AddCookie("Cookies")
+                .AddOpenIdConnect("oidc", option =>
+                {
+                    option.Authority = "https://localhost:44387/";
+                    option.ClientId = "web_client";
+                    option.ClientSecret = "secret";
+                    option.SignInScheme = "Cookies";
+                    option.ResponseType = "code id_token";
+                    option.SaveTokens = true;
+                    option.RequireHttpsMetadata = true;
                 });
 
 
@@ -99,10 +115,10 @@ namespace Ecommerce.Web
             }
             app.UseHttpsRedirection();
             //wwwroot 
-            app.UseStaticFiles();
-            
+            app.UseStaticFiles(); 
             app.UseRouting();
             app.UseCookiePolicy(); 
+            app.UseAuthentication();
             app.UseAuthorization();
             
             app.UseEndpoints(endpoints =>

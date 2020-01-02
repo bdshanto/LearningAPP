@@ -3,6 +3,7 @@ using IdentityModel;
 using IdentityServer4;
 using IdentityServer4.Models;
 using IdentityServer4.Test;
+using static IdentityModel.OidcConstants;
 
 namespace Ecommerce.Auth
 {
@@ -47,22 +48,41 @@ namespace Ecommerce.Auth
                     ClientId = "web_client",
                     ClientName = "web_client",
                     AllowedGrantTypes =IdentityServer4.Models.GrantTypes.Hybrid,
-                    ClientSecrets = new List<Secret>(){new Secret("secret".Sha256())},
+                    ClientSecrets = new List<Secret>{new Secret("secret".Sha256())},
                     // where to redirect to after login
-                    RedirectUris ={"https://localhost:44314/signin-oidc"},
+                    RedirectUris = {"https://localhost:44314/signin-oidc"},
                     // where to redirect to after logout
                    //PostLogoutRedirectUris = {"https://localhost:44314/signout-callback-oidc"},
-                    AllowedScopes =new List<string>
+                    AllowedScopes =
                     {
-                        IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile,
+                        StandardScopes.OpenId,
+                        StandardScopes.Profile,
                        "ecommerce_api"
                     },
                     AllowOfflineAccess = true
                 },
-                
 
+                new Client()
+                {
+                    ClientId = "api",
+                    ClientSecrets= new List<Secret>()
+                    {
+                        new Secret("secret".Sha256())
+                    },
+                    AllowedGrantTypes = IdentityServer4.Models.GrantTypes.ClientCredentials,
+                    AllowedScopes =
+                    {
+                        "ecommerce_api"
+                    }
+                }
 
+            };
+        }
+
+        public static List<ApiResource> GetApiResources()
+        {
+            return new List<ApiResource>(){
+                new ApiResource("ecommerce_api","Ecommerce API")
             };
         }
     }

@@ -16,12 +16,20 @@ namespace Ecommerce.Auth
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddIdentityServer()
+            /*services.AddIdentityServer()
                 //.AddSigningCredential() //SSL Certificate & ned valid certificate
                 .AddDeveloperSigningCredential()
                 .AddTestUsers(Config.GetUsers())
                 .AddInMemoryIdentityResources(Config.GetIdentityResources())
                 .AddInMemoryClients(Config.GetClients());
+
+            services.AddMvc();*/
+            services.AddIdentityServer()
+                .AddDeveloperSigningCredential()
+                .AddTestUsers(Config.GetUsers())
+                .AddInMemoryIdentityResources(Config.GetIdentityResources())
+                .AddInMemoryClients(Config.GetClients())
+                .AddInMemoryApiResources(Config.GetApiResources());
 
             services.AddMvc();
         }
@@ -39,16 +47,12 @@ namespace Ecommerce.Auth
             app.UseRouting();
             app.UseAuthorization();
 
-           app.UseEndpoints(endpoints =>
-            {
-              
+            app.UseEndpoints(endpoints =>
+             {
                  endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-                
-
-              
-            });
+                   name: "default",
+                   pattern: "{controller=home}/{action=Index}/{id?}");
+             });
 
 
 
